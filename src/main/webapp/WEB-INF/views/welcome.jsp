@@ -190,7 +190,7 @@
                     </span>
                     <hr>
                     <div class="post-content">
-                        <p>"Application Successfully Updated via Jenkins Pipeline & Kubernetes Rolling Update by Ahmed Mahmoud"</p>
+                        <p>"VERSION 2.0 - FULL AUTOMATION BY AHMED MAHMOUD"</p>
                         <p>The Key to DevOps Success" Collaboration". Collaboration is essential to DevOps,yet how to do it is often unclear with many teams falling back on ineffective conference calls, instant messaging, documents, and SharePoint sites. In this keynote,we will share a vision for a next generation DevOps where collaboration, continuous documentation, and knowledge capture are combined with automation toolchains to enable rapid innovation and deployment.</p>
                     </div>
                     <hr>
