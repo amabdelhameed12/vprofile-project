@@ -31,7 +31,7 @@ spec:
     stages {
         stage('Checkout') {
             steps {
-                checkout scss
+                checkout scm
             }
         }
 
