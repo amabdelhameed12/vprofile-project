@@ -6,7 +6,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    some-label: jenkins-agent
+    jenkins-agent: vprofile
 spec:
   containers:
   - name: maven
@@ -15,20 +15,24 @@ spec:
     - cat
     tty: true
     resources:
-      limits:
-        memory: "768Mi"
       requests:
         memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
     - cat
     tty: true
     resources:
-      limits:
-        memory: "512Mi"
       requests:
         memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
 '''
         }
     }
@@ -36,7 +40,7 @@ spec:
     environment {
         REGISTRY = "192.168.56.35:5000"
         IMAGE_NAME = "vprofileapp"
-        MAVEN_OPTS = "-Xmx512m -XX:+UseSerialGC"
+        MAVEN_OPTS = "-Xmx384m -Xms128m -XX:+UseSerialGC"
     }
 
     stages {
