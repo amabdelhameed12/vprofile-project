@@ -56,7 +56,14 @@ spec:
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM', 
+                    branches: [[name: '*/main']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [
+                        [$class: 'CloneOption', depth: 1, noTags: true, shallow: true, timeout: 20]
+                    ],
+                    userRemoteConfigs: [[url: 'https://github.com/amabdelhameed12/vprofile-project.git']]
+                ])
             }
         }
 
