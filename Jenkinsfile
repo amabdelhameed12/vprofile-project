@@ -33,12 +33,22 @@ spec:
       limits:
         memory: "512Mi"
         cpu: "500m"
+    volumeMounts:
+    - name: docker-config
+      mountPath: /kaniko/.docker
+  volumes:
+  - name: docker-config
+    secret:
+      secretName: dockerhub-secret
+      items:
+      - key: .dockerconfigjson
+        path: config.json
 '''
         }
     }
 
     environment {
-        REGISTRY = "192.168.56.35:5000"
+        DOCKERHUB_USER = "amabdelhameed12"
         IMAGE_NAME = "vprofileapp"
         MAVEN_OPTS = "-Xmx384m -Xms128m -XX:+UseSerialGC"
     }
@@ -69,10 +79,8 @@ spec:
                     sh """
                     /kaniko/executor --context=dir:///home/jenkins/agent/workspace/${env.JOB_NAME} \
                                      --dockerfile=Dockerfile \
-                                     --destination=${REGISTRY}/${IMAGE_NAME}:${env.BUILD_NUMBER} \
-                                     --destination=${REGISTRY}/${IMAGE_NAME}:latest \
-                                     --insecure \
-                                     --skip-tls-verify
+                                     --destination=${DOCKERHUB_USER}/${IMAGE_NAME}:${env.BUILD_NUMBER} \
+                                     --destination=${DOCKERHUB_USER}/${IMAGE_NAME}:latest
                     """
                 }
             }
@@ -81,7 +89,7 @@ spec:
 
     post {
         success {
-            echo "CI Pipeline Completed Successfully. Artifacts and Docker Image pushed."
+            echo "CI Pipeline Completed Successfully. Image pushed to Docker Hub."
         }
         failure {
             echo "CI Pipeline Failed."
