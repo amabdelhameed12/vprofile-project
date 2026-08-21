@@ -14,11 +14,21 @@ spec:
     command:
     - cat
     tty: true
+    resources:
+      limits:
+        memory: "768Mi"
+      requests:
+        memory: "256Mi"
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
     - cat
     tty: true
+    resources:
+      limits:
+        memory: "512Mi"
+      requests:
+        memory: "256Mi"
 '''
         }
     }
@@ -26,6 +36,7 @@ spec:
     environment {
         REGISTRY = "192.168.56.35:5000"
         IMAGE_NAME = "vprofileapp"
+        MAVEN_OPTS = "-Xmx512m -XX:+UseSerialGC"
     }
 
     stages {
