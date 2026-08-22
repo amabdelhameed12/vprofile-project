@@ -8,6 +8,11 @@ metadata:
   labels:
     jenkins-agent: vprofile
 spec:
+  dnsPolicy: "None"
+  dnsConfig:
+    nameservers:
+      - 8.8.8.8
+      - 1.1.1.1
   containers:
   - name: maven
     image: maven:3.9.6-eclipse-temurin-11
@@ -24,6 +29,8 @@ spec:
     volumeMounts:
     - name: m2-cache
       mountPath: /root/.m2
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
@@ -39,17 +46,21 @@ spec:
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
   volumes:
   - name: m2-cache
     hostPath:
-      path: /tmp/m2-cache
-      type: DirectoryOrCreate
+      path: "/tmp/m2-cache"
+      type: "DirectoryOrCreate"
   - name: docker-config
     secret:
       secretName: dockerhub-secret
       items:
       - key: .dockerconfigjson
         path: config.json
+  - emptyDir: {}
+    name: "workspace-volume"
 '''
         }
     }
@@ -61,16 +72,6 @@ spec:
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', 
-                    branches: [[name: '*/main']],
-                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true, timeout: 15]],
-                    userRemoteConfigs: [[url: 'https://github.com/amabdelhameed12/vprofile-project.git']]
-                ])
-            }
-        }
-
         stage('Test & Build WAR') {
             steps {
                 container('maven') {
