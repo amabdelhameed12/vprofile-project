@@ -8,11 +8,6 @@ metadata:
   labels:
     jenkins-agent: vprofile
 spec:
-  dnsPolicy: "None"
-  dnsConfig:
-    nameservers:
-      - 8.8.8.8
-      - 1.1.1.1
   containers:
   - name: maven
     image: maven:3.9.6-eclipse-temurin-11
@@ -21,8 +16,8 @@ spec:
     tty: true
     resources:
       requests:
-        memory: "512Mi"
-        cpu: "250m"
+        memory: "256Mi"
+        cpu: "100m"
       limits:
         memory: "1536Mi"
         cpu: "1000m"
@@ -38,8 +33,8 @@ spec:
     tty: true
     resources:
       requests:
-        memory: "512Mi"
-        cpu: "250m"
+        memory: "256Mi"
+        cpu: "100m"
       limits:
         memory: "1024Mi"
         cpu: "1000m"
