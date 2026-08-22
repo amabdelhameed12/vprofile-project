@@ -91,8 +91,7 @@ spec:
                     /kaniko/executor --context=dir:///home/jenkins/agent/workspace/${env.JOB_NAME} \
                                      --dockerfile=Dockerfile \
                                      --destination=${DOCKERHUB_USER}/${IMAGE_NAME}:${env.BUILD_NUMBER} \
-                                     --destination=${DOCKERHUB_USER}/${IMAGE_NAME}:latest \
-                                     --cache=true
+                                     --destination=${DOCKERHUB_USER}/${IMAGE_NAME}:latest
                     """
                 }
             }
